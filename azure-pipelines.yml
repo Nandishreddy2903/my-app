@@ -1,0 +1,21 @@
+trigger:
+- main
+
+pool:
+  name: MyLocalPool
+
+steps:
+- script: mvn clean package
+  displayName: 'Build with Maven'
+
+- script: |
+    echo "Simulating deployment..."
+    mkdir deployed
+    copy target\*.jar deployed\
+    echo "Deployment successful!"
+  displayName: 'Simulate Deployment'
+
+- script: |
+    echo "Running the JAR file..."
+    java -jar deployed\*.jar
+  displayName: 'Run Application'
